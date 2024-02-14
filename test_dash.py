@@ -22,7 +22,8 @@ import pandas as pd
 from datetime import datetime, timedelta
 import yfinance as yf
 import pandas as pd
-from newsapi import NewsApiClient
+#from newsapi import NewsApiClient
+from newsapi.newsapi_client import NewsApiClient
 from datetime import datetime, timedelta
 
 # First we will import the necessary Library
