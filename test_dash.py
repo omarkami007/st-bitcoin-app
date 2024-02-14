@@ -273,7 +273,7 @@ def sentiment_analysis(text):
     return sentiment
 
 
-API_KEY = st.sidebar.text_input('Enter your NewsAPI API key',value='d195cbc01116434d8c32b702d4fe31ef')
+API_KEY = st.sidebar.text_input('Enter your NewsAPI API key',value='7d50571799064bdea99f596876917fb8')
 #API_KEY = 'd195cbc01116434d8c32b702d4fe31ef'
 
 value_mapping = {'1 hour': 60, '1 day': 1440}
