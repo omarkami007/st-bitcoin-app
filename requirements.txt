@@ -4,12 +4,11 @@ plotly
 yfinance
 ta
 scikit-learn
-datetime
-newsapi
 nltk
 textblob
 statsmodels
 matplotlib
-newsapi-python
-newsapi
 tensorflow
+plotly
+newsapi-python
+
