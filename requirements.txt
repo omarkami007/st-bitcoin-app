@@ -11,3 +11,4 @@ textblob
 statsmodels
 matplotlib
 newsapi-python
+newsapi
