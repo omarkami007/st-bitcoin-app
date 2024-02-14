@@ -10,3 +10,4 @@ nltk
 textblob
 statsmodels
 matplotlib
+newsapi-python
