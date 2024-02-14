@@ -1,0 +1,12 @@
+streamlit
+pandas
+plotly
+yfinance
+ta
+scikit-learn
+datetime
+newsapi
+nltk
+textblob
+statsmodels
+matplotlib
