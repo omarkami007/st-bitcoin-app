@@ -12,3 +12,4 @@ statsmodels
 matplotlib
 newsapi-python
 newsapi
+tensorflow
