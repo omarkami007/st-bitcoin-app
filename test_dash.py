@@ -357,26 +357,26 @@ def dataframe():
 
 
 def predict():
-    st.header('Bitcoin Price and Sentiment')
-    model = st.radio('Choose a model', ['LinearRegression', 'RandomForestRegressor', 'ExtraTreesRegressor', 'KNeighborsRegressor', 'XGBoostRegressor'])
-    num = st.number_input('How many days forecast?', value=5)
-    num = int(num)
-    if st.button('Predict'):
-        if model == 'LinearRegression':
-            engine = LinearRegression()
-            model_engine(engine, num)
-        elif model == 'RandomForestRegressor':
-            engine = RandomForestRegressor()
-            model_engine(engine, num)
-        elif model == 'ExtraTreesRegressor':
-            engine = ExtraTreesRegressor()
-            model_engine(engine, num)
-        elif model == 'KNeighborsRegressor':
-            engine = KNeighborsRegressor()
-            model_engine(engine, num)
-        else:
-            engine = XGBRegressor()
-            model_engine(engine, num)
+    st.header('Bitcoin Price Forecasting')
+    # model = st.radio('Choose a model', ['LinearRegression', 'RandomForestRegressor', 'ExtraTreesRegressor', 'KNeighborsRegressor', 'XGBoostRegressor'])
+    # num = st.number_input('How many days forecast?', value=5)
+    # num = int(num)
+    # if st.button('Predict'):
+    #     if model == 'LinearRegression':
+    #         engine = LinearRegression()
+    #         model_engine(engine, num)
+    #     elif model == 'RandomForestRegressor':
+    #         engine = RandomForestRegressor()
+    #         model_engine(engine, num)
+    #     elif model == 'ExtraTreesRegressor':
+    #         engine = ExtraTreesRegressor()
+    #         model_engine(engine, num)
+    #     elif model == 'KNeighborsRegressor':
+    #         engine = KNeighborsRegressor()
+    #         model_engine(engine, num)
+    #     else:
+    #         engine = XGBRegressor()
+    #         model_engine(engine, num)
 
 
 def model_engine(model, num):
