@@ -371,9 +371,7 @@ def recent_data():
         fig_overall.update_layout(xaxis_title='date',
                         yaxis_title='Close Price',
                         xaxis_rangeslider_visible=False,
-                        template='plotly_dark',
-                                    xanchor="right",  # changed
-    x=-0.3)  # Use a dark theme for a stock market style
+                        template='plotly_dark',xanchor="right",x=-0.3)  # Use a dark theme for a stock market style
         st.plotly_chart(fig_overall)
 
 
