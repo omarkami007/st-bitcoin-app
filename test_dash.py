@@ -378,6 +378,7 @@ def recent_data():
                             xanchor="left",
                             x=1.1
                         ))
+        fig_overall.update_layout(height=600, width=800)
         st.plotly_chart(fig_overall)
 
 
