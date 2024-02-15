@@ -298,7 +298,7 @@ overall = pd.merge(btc_data,sentiment,on='date',how='inner')
 
 def recent_data():
     st.header('Bitcoin Price and Sentiment')
-    option = st.radio('Choose a Technical Indicator to Visualize', ['Close','Sentiment Index'])
+    option = st.radio('Choose a Technical Indicator to Visualize', ['Close','Sentiment Index','Price + Sentiment'])
 
     data = btc_data
     # Bollinger bands
@@ -321,7 +321,7 @@ def recent_data():
     fig = go.Figure(data=[go.Candlestick(x=data.index,
                                         open=data['Open'],
                                         high=data['High'],
-                                        low=data['Low'] - 5,
+                                        low=data['Low'],
                                         close=data['Close'])])
 
 
@@ -343,9 +343,25 @@ def recent_data():
         st.write('Sentiment Index')
         #st.line_chart(sentiment[['date','Negative','Neutral','Positive']],x='date',color=['#00FF00','#FFFFFF','#FF0000'])
         st.line_chart(sentiment[['date','Negative','Positive']],x='date',color=['#FF0000','#00FF00'])
+    elif option == 'Price + Sentiment':
+        st.write('BTC Price and Sentiment Index')
+        # #     # Create a candlestick chart
+        fig_overall = go.Figure(data=[go.Candlestick(x=data.index,
+                                            open=data['Open'],
+                                            high=data['High'],
+                                            low=data['Low'],
+                                            close=data['Close']),go.Line(x=data.index, y=sentiment['Negative']*150000, mode='lines', name='Negative', line=dict(color='#FF0000')),
+                                            go.Line(x=sentiment['date'], y=sentiment['Positive']*150000, mode='lines', name='Positive', line=dict(color='#00FF00'))
+                                            ])
 
 
-    print(sentiment)
+        # Update layout for a stock market style
+        fig_overall.update_layout(xaxis_title='date',
+                        yaxis_title='Close Price',
+                        xaxis_rangeslider_visible=False,
+                        template='plotly_dark')  # Use a dark theme for a stock market style
+        st.plotly_chart(fig_overall)
+
 
 
 
