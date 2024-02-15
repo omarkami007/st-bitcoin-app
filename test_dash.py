@@ -355,7 +355,6 @@ def dataframe():
     st.dataframe(data.tail(10))
 
 
-@st.cache_resource
 def predict():
     st.header('Bitcoin Price and Sentiment')
     days_to_forecast = st.number_input('How many days forecast?', value=5)
