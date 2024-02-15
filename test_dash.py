@@ -350,7 +350,8 @@ def recent_data():
                                             open=data['Open'],
                                             high=data['High'],
                                             low=data['Low'],
-                                            close=data['Close'])])
+                                            close=data['Close'],
+                                                    name='Close Price')])
         
         fig_overall.add_trace(go.Line(x=data.index, y=sentiment['Negative'], mode='lines', name='Negative', line=dict(color='#FF0000'),yaxis='y2'))
         fig_overall.add_trace(go.Line(x=data.index, y=sentiment['Positive'], mode='lines', name='Positive', line=dict(color='#00FF00'),yaxis='y2'))
