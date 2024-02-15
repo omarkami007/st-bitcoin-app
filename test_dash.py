@@ -346,13 +346,39 @@ def recent_data():
     elif option == 'Price + Sentiment':
         st.write('BTC Price and Sentiment Index')
         # #     # Create a candlestick chart
+        # fig_overall = go.Figure(data=[go.Candlestick(x=data.index,
+        #                                     open=data['Open'],
+        #                                     high=data['High'],
+        #                                     low=data['Low'],
+        #                                     close=data['Close']),go.Line(x=data.index, y=sentiment['Negative']*150000, mode='lines', name='Negative', line=dict(color='#FF0000')),
+        #                                     go.Line(x=sentiment['date'], y=sentiment['Positive']*150000, mode='lines', name='Positive', line=dict(color='#00FF00'))
+        #                                     ])
+
+
+        # # Update layout for a stock market style
+        # fig_overall.update_layout(xaxis_title='date',
+        #                 yaxis_title='Close Price',
+        #                 xaxis_rangeslider_visible=False,
+        #                 template='plotly_dark')  # Use a dark theme for a stock market style
+        # st.plotly_chart(fig_overall)
         fig_overall = go.Figure(data=[go.Candlestick(x=data.index,
                                             open=data['Open'],
                                             high=data['High'],
                                             low=data['Low'],
-                                            close=data['Close']),go.Line(x=data.index, y=sentiment['Negative']*150000, mode='lines', name='Negative', line=dict(color='#FF0000')),
-                                            go.Line(x=sentiment['date'], y=sentiment['Positive']*150000, mode='lines', name='Positive', line=dict(color='#00FF00'))
-                                            ])
+                                            close=data['Close'])])
+        
+        fig_overall.add_trace(go.Line(x=data.index, y=sentiment['Negative'], mode='lines', name='Negative', line=dict(color='#FF0000'),yaxis='y2'))
+        fig_overall.add_trace(go.Line(x=sentiment['date'], y=sentiment['Positive'], mode='lines', name='Positive', line=dict(color='#00FF00'),yaxis='y2'))
+
+        fig_overall.update_layout(
+        yaxis2=dict(
+            title="Sentiment Intensity",
+            overlaying="y",
+            side="right",
+            range=[0, 0.5],  # Set the range from 0 to 2
+        )
+    )
+
 
 
         # Update layout for a stock market style
@@ -361,7 +387,6 @@ def recent_data():
                         xaxis_rangeslider_visible=False,
                         template='plotly_dark')  # Use a dark theme for a stock market style
         st.plotly_chart(fig_overall)
-
 
 
 
