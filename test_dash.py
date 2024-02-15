@@ -356,7 +356,7 @@ def dataframe():
 
 
 def predict():
-    st.header('Bitcoin Price and Sentiment')
+    st.header('Bitcoin Price Forecasting')
     btc_predict = download_btc_data(ndays,1440)
     days_to_forecast = st.number_input('How many days forecast?', value=5)
     days_to_forecast = int(days_to_forecast)
