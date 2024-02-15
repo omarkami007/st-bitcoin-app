@@ -353,7 +353,7 @@ def recent_data():
                                             close=data['Close'])])
         
         fig_overall.add_trace(go.Line(x=data.index, y=sentiment['Negative'], mode='lines', name='Negative', line=dict(color='#FF0000'),yaxis='y2'))
-        fig_overall.add_trace(go.Line(x=sentiment['date'], y=sentiment['Positive'], mode='lines', name='Positive', line=dict(color='#00FF00'),yaxis='y2'))
+        fig_overall.add_trace(go.Line(x=data.index, y=sentiment['Positive'], mode='lines', name='Positive', line=dict(color='#00FF00'),yaxis='y2'))
 
         fig_overall.update_layout(
         yaxis2=dict(
