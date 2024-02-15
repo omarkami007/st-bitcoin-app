@@ -298,24 +298,9 @@ overall = pd.merge(btc_data,sentiment,on='date',how='inner')
 
 def recent_data():
     st.header('Bitcoin Price and Sentiment')
-    option = st.radio('Choose a Technical Indicator to Visualize', ['Close','Sentiment Index','Price + Sentiment'])
+    option = st.radio('Choose a Technical Indicator to Visualize', ['Close Price','Sentiment Index','Price + Sentiment'])
 
     data = btc_data
-    # Bollinger bands
-    bb_indicator = BollingerBands(data.Close)
-    bb = data
-    bb['bb_h'] = bb_indicator.bollinger_hband()
-    bb['bb_l'] = bb_indicator.bollinger_lband()
-    # Creating a new dataframe
-    bb = bb[['Close', 'bb_h', 'bb_l']]
-    # MACD
-    macd = MACD(data.Close).macd()
-    # RSI
-    rsi = RSIIndicator(data.Close).rsi()
-    # SMA
-    sma = SMAIndicator(data.Close, window=14).sma_indicator()
-    # EMA
-    ema = EMAIndicator(data.Close).ema_indicator()
   
     # #     # Create a candlestick chart
     fig = go.Figure(data=[go.Candlestick(x=data.index,
@@ -333,7 +318,7 @@ def recent_data():
 
 
 
-    if option == 'Close':
+    if option == 'Close Price':
         st.write('Close Price')
         st.plotly_chart(fig)
     elif option == 'BB':
