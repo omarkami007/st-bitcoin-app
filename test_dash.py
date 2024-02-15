@@ -357,6 +357,7 @@ def dataframe():
 
 def predict():
     st.header('Bitcoin Price and Sentiment')
+    btc_predict = download_btc_data(ndays,1440)
     days_to_forecast = st.number_input('How many days forecast?', value=5)
     days_to_forecast = int(days_to_forecast)
 
@@ -389,7 +390,6 @@ def predict():
 
 @st.cache_resource
 def model(ndays,days_to_forecast):
-    btc_predict = download_btc_data(ndays,1440)
         # Extract the close prices
     close_prices = btc_predict['Close']
 
