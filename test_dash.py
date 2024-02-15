@@ -355,37 +355,13 @@ def dataframe():
     st.dataframe(data.tail(10))
 
 
-
-def predict():
-    st.header('Bitcoin Price Forecasting')
-    # model = st.radio('Choose a model', ['LinearRegression', 'RandomForestRegressor', 'ExtraTreesRegressor', 'KNeighborsRegressor', 'XGBoostRegressor'])
-    # num = st.number_input('How many days forecast?', value=5)
-    # num = int(num)
-    # if st.button('Predict'):
-    #     if model == 'LinearRegression':
-    #         engine = LinearRegression()
-    #         model_engine(engine, num)
-    #     elif model == 'RandomForestRegressor':
-    #         engine = RandomForestRegressor()
-    #         model_engine(engine, num)
-    #     elif model == 'ExtraTreesRegressor':
-    #         engine = ExtraTreesRegressor()
-    #         model_engine(engine, num)
-    #     elif model == 'KNeighborsRegressor':
-    #         engine = KNeighborsRegressor()
-    #         model_engine(engine, num)
-    #     else:
-    #         engine = XGBRegressor()
-    #         model_engine(engine, num)
-
 @st.cache_resource
 def predict():
     st.header('Bitcoin Price and Sentiment')
-    btc_predict = download_btc_data(ndays,1440)
     days_to_forecast = st.number_input('How many days forecast?', value=5)
     days_to_forecast = int(days_to_forecast)
 
-    forecast_dates,forecast_values = model(ndays,days_to_predict)
+    forecast_dates,forecast_values = model(ndays,days_to_forecast)
     # Display the forecasted values in Streamlit
     st.write(f"Forecasted Close Prices for the Next {days_to_forecast} Days:")
 
@@ -413,7 +389,8 @@ def predict():
     st.plotly_chart(fig_predict)
 
 @st.cache_resource
-def model(ndays,days_to_predict):
+def model(ndays,days_to_forecast):
+    btc_predict = download_btc_data(ndays,1440)
         # Extract the close prices
     close_prices = btc_predict['Close']
 
