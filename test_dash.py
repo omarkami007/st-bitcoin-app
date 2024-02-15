@@ -376,7 +376,7 @@ def recent_data():
                             yanchor="top",
                             y=0.99,
                             xanchor="left",
-                            x=0.01
+                            x=-0.3
                         ))
         st.plotly_chart(fig_overall)
 
