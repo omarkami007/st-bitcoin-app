@@ -361,7 +361,7 @@ def predict():
     days_to_forecast = st.number_input('How many days forecast?', value=5)
     days_to_forecast = int(days_to_forecast)
 
-    forecast_dates,forecast_values = model(ndays,days_to_forecast)
+    forecast_dates,forecast_values,btc_predict = tm_model(ndays,days_to_forecast)
     # Display the forecasted values in Streamlit
     st.write(f"Forecasted Close Prices for the Next {days_to_forecast} Days:")
 
@@ -389,7 +389,8 @@ def predict():
     st.plotly_chart(fig_predict)
 
 @st.cache_resource
-def model(ndays,days_to_forecast):
+def tm_model(ndays,days_to_forecast):
+    btc_predict = download_btc_data(ndays,1440)
         # Extract the close prices
     close_prices = btc_predict['Close']
 
@@ -425,7 +426,7 @@ def model(ndays,days_to_forecast):
     forecast_values = forecast.predicted_mean
     # Generate continuous dates for the forecast period
     forecast_dates = pd.date_range(close_prices.index[-1] + timedelta(days=1), periods=forecast_steps)
-    return forecast_dates,forecast_values
+    return forecast_dates,forecast_values,btc_predict
 
 if __name__ == '__main__':
     main()
