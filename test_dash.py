@@ -378,38 +378,78 @@ def predict():
     #         engine = XGBRegressor()
     #         model_engine(engine, num)
 
+@st.cache_resource
+def predict():
+    st.header('Bitcoin Price and Sentiment')
+    btc_predict = download_btc_data(ndays,1440)
+    days_to_forecast = st.number_input('How many days forecast?', value=5)
+    days_to_forecast = int(days_to_forecast)
 
-def model_engine(model, num):
-    # getting only the closing price
-    df = data[['Close']]
-    # shifting the closing price based on number of days forecast
-    df['preds'] = data.Close.shift(-num)
-    # scaling the data
-    x = df.drop(['preds'], axis=1).values
-    x = scaler.fit_transform(x)
-    # storing the last num_days data
-    x_forecast = x[-num:]
-    # selecting the required values for training
-    x = x[:-num]
-    # getting the preds column
-    y = df.preds.values
-    # selecting the required values for training
-    y = y[:-num]
+    forecast_dates,forecast_values = model(ndays,days_to_predict)
+    # Display the forecasted values in Streamlit
+    st.write(f"Forecasted Close Prices for the Next {days_to_forecast} Days:")
 
-    #spliting the data
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.2, random_state=7)
-    # training the model
-    model.fit(x_train, y_train)
-    preds = model.predict(x_test)
-    st.text(f'r2_score: {r2_score(y_test, preds)} \
-            \nMAE: {mean_absolute_error(y_test, preds)}')
-    # predicting stock price based on the number of days
-    forecast_pred = model.predict(x_forecast)
-    day = 1
-    for i in forecast_pred:
-        st.text(f'Day {day}: {i}')
-        day += 1
+    # #     # Create a candlestick chart
+    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index,
+                                        open=btc_predict['Open'],
+                                        high=btc_predict['High'],
+                                        low=btc_predict['Low'],
+                                        close=btc_predict['Close'])])
 
+
+    # Update layout for a stock market style
+    fig_predict.update_layout(xaxis_title='date',
+                    yaxis_title='Close Price',
+                    xaxis_rangeslider_visible=False,
+                    template='plotly_dark')  # Use a dark theme for a stock market style
+
+    # Add forecasted close prices to the chart
+    fig_predict.add_trace(go.Scatter(x=forecast_dates, y=forecast_values, name='Forecast'))
+
+    # # Set chart title
+    # fig.update_layout(title='Bitcoin Close Price Forecast')
+
+    # Display the chart in Streamlit
+    st.plotly_chart(fig_predict)
+
+@st.cache_resource
+def model(ndays,days_to_predict):
+        # Extract the close prices
+    close_prices = btc_predict['Close']
+
+    # Define ARIMA parameters
+    p = 2  # Order of the AR term
+    d = 1  # Order of the differencing
+    q = 2  # Order of the MA term
+
+    # # Train the ARIMA model
+    # model = ARIMA(close_prices, order=(p, d, q))
+    # model_fit = model.fit()
+
+    # Division des données en ensembles d'entraînement et de test
+    train_size = int(len(close_prices) * 0.8)
+    train, test = close_prices[0:train_size], close_prices[train_size:]
+
+    history = [x for x in train]  # Historique des observations pour l'entraînement itératif
+    predictions = []  # Pour stocker les prédictions
+
+    # Prédictions en marchant à travers le temps dans l'ensemble de test
+    for t in range(len(test)):
+        model = ARIMA(history, order=(p,d,q))
+        model_fit = model.fit()
+        yhat = model_fit.forecast()[0]
+        predictions.append(yhat)
+        history.append(test.iloc[t])  # Ajouter l'observation réelle pour la prochaine itération
+
+    # Forecast the next 5 days
+    forecast_steps = days_to_forecast
+    forecast = model_fit.get_forecast(steps=forecast_steps)
+
+    # Get the forecasted values and dates
+    forecast_values = forecast.predicted_mean
+    # Generate continuous dates for the forecast period
+    forecast_dates = pd.date_range(close_prices.index[-1] + timedelta(days=1), periods=forecast_steps)
+    return forecast_dates,forecast_values
 
 if __name__ == '__main__':
     main()
