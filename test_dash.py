@@ -399,7 +399,7 @@ def predict():
     st.write(f"Forecasted Close Prices for the Next {days_to_forecast} Days:")
 
     # #     # Create a candlestick chart
-    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index[-30:],
+    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index,
                                         open=btc_predict['Open'],
                                         high=btc_predict['High'],
                                         low=btc_predict['Low'],
