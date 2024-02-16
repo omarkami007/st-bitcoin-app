@@ -424,7 +424,7 @@ def predict():
 
 @st.cache_resource
 def tm_model(ndays,days_to_forecast):
-    btc_predict = download_btc_data(ndays,1440)
+    btc_predict = download_btc_data(1000,1440)
         # Extract the close prices
     close_prices = btc_predict['Close']
 
