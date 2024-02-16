@@ -391,7 +391,6 @@ def dataframe():
 
 def predict():
     st.header('Bitcoin Price Forecasting')
-    btc_predict = download_btc_data(ndays,1440)
     days_to_forecast = st.number_input('How many days forecast?', value=5)
     days_to_forecast = int(days_to_forecast)
 
@@ -400,7 +399,7 @@ def predict():
     st.write(f"Forecasted Close Prices for the Next {days_to_forecast} Days:")
 
     # #     # Create a candlestick chart
-    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index,
+    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index[-30:],
                                         open=btc_predict['Open'],
                                         high=btc_predict['High'],
                                         low=btc_predict['Low'],
