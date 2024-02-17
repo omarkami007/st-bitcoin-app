@@ -399,7 +399,6 @@ def predict():
     st.write(f"Forecasted Close Prices for the Next {days_to_forecast} Days:")
 
     # #     # Create a candlestick chart
-    btc_predict = btc_predict[30:]
     fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index,
                                         open=btc_predict['Open'],
                                         high=btc_predict['High'],
@@ -424,7 +423,7 @@ def predict():
 
 @st.cache_resource
 def tm_model(ndays,days_to_forecast):
-    btc_predict = download_btc_data(1000,1440)
+    btc_predict = download_btc_data(ndays,1440)
         # Extract the close prices
     close_prices = btc_predict['Close']
 
