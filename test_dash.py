@@ -399,11 +399,20 @@ def predict():
     st.write(f"Forecasted Close Prices for the Next {days_to_forecast} Days:")
 
     # #     # Create a candlestick chart
-    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index,
-                                        open=btc_predict['Open'],
-                                        high=btc_predict['High'],
-                                        low=btc_predict['Low'],
-                                        close=btc_predict['Close'])])
+
+    # fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.index,
+    #                                     open=btc_predict['Open'],
+    #                                     high=btc_predict['High'],
+    #                                     low=btc_predict['Low'],
+    #                                     close=btc_predict['Close'])])
+
+    last_30_days = btc_predict.index[-30:]
+
+    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.loc[last_30_days].index,
+                                             open=btc_predict.loc[last_30_days, 'Open'],
+                                             high=btc_predict.loc[last_30_days, 'High'],
+                                             low=btc_predict.loc[last_30_days, 'Low'],
+                                             close=btc_predict.loc[last_30_days, 'Close'])])
 
 
     # Update layout for a stock market style
@@ -423,7 +432,8 @@ def predict():
 
 @st.cache_resource
 def tm_model(ndays,days_to_forecast):
-    btc_predict = download_btc_data(ndays,1440)
+    #btc_predict = download_btc_data(ndays,1440)
+    btc_predict = download_btc_data(1400,1440)
         # Extract the close prices
     close_prices = btc_predict['Close']
 
