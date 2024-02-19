@@ -288,6 +288,20 @@ START_DATE = (datetime.now() - timedelta(days=ndays)).strftime('%Y-%m-%d')
 st.sidebar.text(f'Start Date: {END_DATE}')
 st.sidebar.text(f'End Date: {START_DATE}')
 
+# btc_alld = download_btc_data(30,1440)
+# btc_allh = download_btc_data(30,60)
+
+# news_alld = download_news_data(30,1440,API_KEY)
+# news_allh = download_news_data(30,60,API_KEY)
+
+# sentiment_alld = sentiment_analysis(news_alld)
+# sentiment_allh = sentiment_analysis(news_allh)
+
+# overall_alld = 
+# overall_allh = 
+
+
+
 
 btc_data = download_btc_data(ndays,time_step)
 news_df = download_news_data(ndays,time_step,API_KEY)
