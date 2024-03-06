@@ -117,39 +117,33 @@ def download_btc_data(ndays,time_step):
 def download_news_data(ndays,time_step,API_KEY):
     # Configuration des dates dynamiques
     newsapi = NewsApiClient(api_key=API_KEY)
-    
-    try:
-        articles = pd.DataFrame()
-        for i in range(ndays):
-            all_articles = newsapi.get_everything(q='btc bitcoin crypto cryptocurrency',
-                                                from_param=(datetime.now() - timedelta(days=i+1)).strftime('%Y-%m-%d'),
-                                                to=(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d'),
-                                                language='en',
-                                                sort_by='publishedAt')
-            articles1 = pd.DataFrame(all_articles['articles'])
-            articles = pd.concat([articles, articles1], ignore_index=True)
-    
-        news_df = articles
-        print("La collecte et le stockage des données sont terminés.")
-    
-    
-        # Prepare news_df to sentiment analysis
-        news_df = news_df.rename(columns={'publishedAt': 'date', 'title': 'Title', 'content': 'Text'})
-        news_df['date'] = pd.to_datetime(news_df['date'])
-    
-    
-        news_df['year'] = news_df['date'].dt.year
-        news_df['day'] = news_df['date'].dt.day
-    
-        # Group columns by 'date' with a X-minute interval(Articles published each X minutes ==> BTC prediction each X minutes)
-        news_df['date'] = news_df['date'].dt.floor(f'{time_step}T')
-    
-        # Format 'date' to 'year-month-day-hour-minute'
-        news_df['date'] = news_df['date'].dt.strftime('%Y-%m-%d %H:%M')
-    except Exception as e:
-        print(e)
-        print('News API Expired. Please type a new API key')
-    
+    articles = pd.DataFrame()
+    for i in range(ndays):
+        all_articles = newsapi.get_everything(q='btc bitcoin crypto cryptocurrency',
+                                            from_param=(datetime.now() - timedelta(days=i+1)).strftime('%Y-%m-%d'),
+                                            to=(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d'),
+                                            language='en',
+                                            sort_by='publishedAt')
+        articles1 = pd.DataFrame(all_articles['articles'])
+        articles = pd.concat([articles, articles1], ignore_index=True)
+
+    news_df = articles
+    print("La collecte et le stockage des données sont terminés.")
+
+
+    # Prepare news_df to sentiment analysis
+    news_df = news_df.rename(columns={'publishedAt': 'date', 'title': 'Title', 'content': 'Text'})
+    news_df['date'] = pd.to_datetime(news_df['date'])
+
+
+    news_df['year'] = news_df['date'].dt.year
+    news_df['day'] = news_df['date'].dt.day
+
+    # Group columns by 'date' with a X-minute interval(Articles published each X minutes ==> BTC prediction each X minutes)
+    news_df['date'] = news_df['date'].dt.floor(f'{time_step}T')
+
+    # Format 'date' to 'year-month-day-hour-minute'
+    news_df['date'] = news_df['date'].dt.strftime('%Y-%m-%d %H:%M')    
     return news_df
 
 @st.cache_resource
