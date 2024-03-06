@@ -118,14 +118,17 @@ def download_news_data(ndays,time_step,API_KEY):
     # Configuration des dates dynamiques
     newsapi = NewsApiClient(api_key=API_KEY)
     articles = pd.DataFrame()
-    for i in range(ndays):
-        all_articles = newsapi.get_everything(q='btc bitcoin crypto cryptocurrency',
-                                            from_param=(datetime.now() - timedelta(days=i+1)).strftime('%Y-%m-%d'),
-                                            to=(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d'),
-                                            language='en',
-                                            sort_by='publishedAt')
-        articles1 = pd.DataFrame(all_articles['articles'])
-        articles = pd.concat([articles, articles1], ignore_index=True)
+    try:
+        for i in range(ndays):
+            all_articles = newsapi.get_everything(q='btc bitcoin crypto cryptocurrency',
+                                                from_param=(datetime.now() - timedelta(days=i+1)).strftime('%Y-%m-%d'),
+                                                to=(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d'),
+                                                language='en',
+                                                sort_by='publishedAt')
+            articles1 = pd.DataFrame(all_articles['articles'])
+            articles = pd.concat([articles, articles1], ignore_index=True)
+    except Exception as e:
+        st.error(f"Error accessing News API: {e}")
 
     news_df = articles
     print("La collecte et le stockage des données sont terminés.")
