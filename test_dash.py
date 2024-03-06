@@ -277,7 +277,7 @@ value_mapping = {'1 hour': 60, '1 day': 1440}
 time_step_name = st.sidebar.selectbox('Choose a value', list(value_mapping.keys()), index=0)
 time_step = value_mapping[time_step_name]
 
-ndays = st.sidebar.number_input('Enter the duration in days(max 30)', value=15, min_value=0, max_value=30)
+ndays = st.sidebar.number_input('Enter the duration in days(max 29)', value=15, min_value=0, max_value=29)
 
 END_DATE = datetime.now().strftime('%Y-%m-%d')  # Aujourd'hui
 START_DATE = (datetime.now() - timedelta(days=ndays)).strftime('%Y-%m-%d')
@@ -421,13 +421,13 @@ def predict():
     #                                     low=btc_predict['Low'],
     #                                     close=btc_predict['Close'])])
 
-    last_30_days = btc_predict.index[-30:]
+    last_29_days = btc_predict.index[-29:]
 
-    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.loc[last_30_days].index,
-                                             open=btc_predict.loc[last_30_days, 'Open'],
-                                             high=btc_predict.loc[last_30_days, 'High'],
-                                             low=btc_predict.loc[last_30_days, 'Low'],
-                                             close=btc_predict.loc[last_30_days, 'Close'])])
+    fig_predict = go.Figure(data=[go.Candlestick(x=btc_predict.loc[last_29_days].index,
+                                             open=btc_predict.loc[last_29_days, 'Open'],
+                                             high=btc_predict.loc[last_29_days, 'High'],
+                                             low=btc_predict.loc[last_29_days, 'Low'],
+                                             close=btc_predict.loc[last_29_days, 'Close'])])
 
 
     # Update layout for a stock market style
