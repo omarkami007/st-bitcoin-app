@@ -127,7 +127,7 @@ def download_news_data(ndays,time_step,API_KEY):
             articles1 = pd.DataFrame(all_articles['articles'])
             articles = pd.concat([articles, articles1], ignore_index=True)
     except Exception:
-        st.error('NewsAPI key expired, please enter a new one in the sidebar')
+        st.error('NewsAPI key expired, please enter a new one in the sidebar\n or use this one temporarily: d195cbc01116434d8c32b702d4fe31ef')
 
     news_df = articles
     print("La collecte et le stockage des données sont terminés.")
