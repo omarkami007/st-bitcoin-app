@@ -146,7 +146,8 @@ def download_news_data(ndays,time_step,API_KEY):
     
         # Format 'date' to 'year-month-day-hour-minute'
         news_df['date'] = news_df['date'].dt.strftime('%Y-%m-%d %H:%M')
-    except newsapi.newsapi_exception.NewsAPIException:
+    except Exception as e:
+        print(e)
         print('News API Expired. Please type a new API key')
     
     return news_df
