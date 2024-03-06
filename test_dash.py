@@ -304,7 +304,11 @@ st.sidebar.text(f'End Date: {START_DATE}')
 
 
 btc_data = download_btc_data(ndays,time_step)
-news_df = download_news_data(ndays,time_step,API_KEY)
+try:
+    news_df = download_news_data(ndays,time_step,API_KEY)
+except newsapi.newsapi_exception.NewsAPIException:
+    print('News API Expired. Please type a new API key')
+    
 sentiment = sentiment_analysis(news_df)
 overall = pd.merge(btc_data,sentiment,on='date',how='inner')
 
